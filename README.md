@@ -7,8 +7,15 @@
 
 # Installation
 1. Have packer.nvim installed
-2. On your init.lua (or anything that you put plugins on), add this line
-   - `use 'ImStyrene/packer-gui'`
+2. On your init.lua (or anything that you put plugins on), add this to your config
+    ```lua
+   use {
+      'ImStyrene/packer-gui',
+       config = function()
+          require('packer-gui')
+       end
+   }
+   ```
 3. Save the file, then do `:so` to source the file or `:qa` to quit every single buffer, then enter neovim again
 4. Run `:PackerSync`
 5. Enjoy!
