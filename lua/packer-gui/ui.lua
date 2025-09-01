@@ -1,50 +1,71 @@
 local M = {}
 
+-- Close buffer safely
+local function close_gui(buf)
+  if vim.api.nvim_buf_is_valid(buf) then
+    vim.api.nvim_buf_delete(buf, { force = true })
+  end
+end
+
 function M.open()
-  -- create scratch buffer
+  -- Create scratch buffer
   local buf = vim.api.nvim_create_buf(false, true)
 
-  -- open vertical split
-  vim.cmd("vsplit")   -- use "split" for horizontal
+  -- Floating window config
+  local width = 57
+  local height = 16
+  local opts = {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = math.floor((vim.o.columns - width) / 2),
+    row = math.floor((vim.o.lines - height) / 2),
+    style = "minimal",
+    border = "rounded",
+  }
 
-  -- set the split width to something smaller
-  vim.cmd("vertical resize 70") -- width in columns for vsplit
-  -- for horizontal: vim.cmd("resize 10") -- height in lines
+  -- Open floating window
+  local win = vim.api.nvim_open_win(buf, true, opts)
 
-  -- set buffer to the split
-  vim.api.nvim_win_set_buf(0, buf)
-
-  -- buffer settings
+  -- Buffer options
   vim.bo[buf].buftype = "nofile"
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].swapfile = false
+  vim.bo[buf].modifiable = true
 
-  -- menu content
-  vim.api.nvim_buf_set_lines(buf, 0, -1, false, {
-    "███████████                     █████                        ",
-    "░░███░░░░░███                   ░░███                         ",
-    " ░███    ░███  ██████    ██████  ░███ █████  ██████  ████████ ",
-    " ░██████████  ░░░░░███  ███░░███ ░███░░███  ███░░███░░███░░███",
-    " ░███░░░░░░    ███████ ░███ ░░░  ░██████░  ░███████  ░███ ░░░ ",
-    " ░███         ███░░███ ░███  ███ ░███░░███ ░███░░░   ░███     ",
-    " █████       ░░████████░░██████  ████ █████░░██████  █████    ",
-    "░░░░░         ░░░░░░░░  ░░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░     ",
-    "",
-    "                    [S] Sync",
-    "                    [I] Install",
-    "                    [C] Compile",
-    "                    [U] Update",
-    "                  [Q] Quit / Close",
-  })
+  -- ASCII + menu
+  local lines = {
+    "@@@@@@@    @@@@@@    @@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@",
+    "@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@",
+    "@@!  @@@  @@!  @@@  !@@       @@!  !@@  @@!       @@!  @@",
+    "!@!  @!@  !@!  @!@  !@!       !@!  @!!  !@!       !@!  @!",
+    "@!@@!@!   @!@!@!@!  !@!       @!@@!@!   @!!!:!    @!@!!@!",
+    "!!@!!!    !!!@!!!!  !!!       !!@!!!    !!!!!:    !!@!@! ",
+    "!!:       !!:  !!!  :!!       !!: :!!   !!:       !!: :!!",
+    ":!:       :!:  !:!  :!:       :!:  !:!  :!:       :!:  !:",
+    " ::       ::   :::   ::: :::   ::  :::   :: ::::  ::   ::",
+    " :         :   : :   :: :: :   :   :::  : :: ::    :   : ",
+    "---------------------------------------------------------",
+    "                       [S] Sync",
+    "                       [I] Instsall",
+    "                       [C] Compile",
+    "                       [U] Update",
+    "                       [Q] Quit",
+  }
 
-  -- keymaps
-  local opts = { noremap = true, silent = true, buffer = buf }
-  vim.keymap.set("n", "S", "<cmd>PackerSync<CR>", opts)
-  vim.keymap.set("n", "I", "<cmd>PackerInstall<CR>", opts)
-  vim.keymap.set("n", "C", "<cmd>PackerCompile<CR>", opts)
-  vim.keymap.set("n", "U", "<cmd>PackerUpdate<CR>", opts)
-  vim.keymap.set("n", "Q", "<cmd>q<CR>", opts)
-  vim.keymap.set("n", "q", "<cmd>q<CR>", opts)
+  -- Insert content
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  vim.bo[buf].modifiable = false
+  vim.bo[buf].readonly = true
+
+  -- Keymaps (buffer-local)
+  local map_opts = { noremap = true, silent = true, buffer = buf }
+  vim.keymap.set("n", "S", "<cmd>PackerSync<CR>", map_opts)
+  vim.keymap.set("n", "I", "<cmd>PackerInstall<CR>", map_opts)
+  vim.keymap.set("n", "C", "<cmd>PackerCompile<CR>", map_opts)
+  vim.keymap.set("n", "U", "<cmd>PackerUpdate<CR>", map_opts)
+  vim.keymap.set("n", "Q", function() close_gui(buf) end, map_opts)
+  vim.keymap.set("n", "q", function() close_gui(buf) end, map_opts)
 end
 
 return M
