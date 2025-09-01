@@ -1,10 +1,5 @@
-local M = {}
+local ui = require("packer-gui.ui")
 
-M.open = require("packer-gui.ui").open
-
--- Create :Packer command
 vim.api.nvim_create_user_command("Packer", function()
-  M.open()
+  ui.open()
 end, {})
-
-return M
