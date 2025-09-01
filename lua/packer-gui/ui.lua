@@ -12,8 +12,8 @@ function M.open()
   local buf = vim.api.nvim_create_buf(false, true)
 
   -- Floating window config
-  local width = 57
-  local height = 16
+  local width = 62
+  local height = 20
   local opts = {
     relative = "editor",
     width = width,
@@ -35,22 +35,26 @@ function M.open()
 
   -- ASCII + menu
   local lines = {
-    "@@@@@@@    @@@@@@    @@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@",
-    "@@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@@@@@@  @@@@@@@",
-    "@@!  @@@  @@!  @@@  !@@       @@!  !@@  @@!       @@!  @@",
-    "!@!  @!@  !@!  @!@  !@!       !@!  @!!  !@!       !@!  @!",
-    "@!@@!@!   @!@!@!@!  !@!       @!@@!@!   @!!!:!    @!@!!@!",
-    "!!@!!!    !!!@!!!!  !!!       !!@!!!    !!!!!:    !!@!@! ",
-    "!!:       !!:  !!!  :!!       !!: :!!   !!:       !!: :!!",
-    ":!:       :!:  !:!  :!:       :!:  !:!  :!:       :!:  !:",
-    " ::       ::   :::   ::: :::   ::  :::   :: ::::  ::   ::",
-    " :         :   : :   :: :: :   :   :::  : :: ::    :   : ",
-    "---------------------------------------------------------",
-    "                       [S] Sync",
-    "                       [I] Instsall",
-    "                       [C] Compile",
-    "                       [U] Update",
-    "                       [Q] Quit",
+    " .S_sSSs     .S_SSSs      sSSs   .S    S.     sSSs   .S_sSSs",
+    ".SS~YS%%b   .SS~SSSSS    d%%SP  .SS    SS.   d%%SP  .SS~YS%%b",
+    "S%S   `S%b  S%S   SSSS  d%S'    S%S    S&S  d%S'    S%S   `S%b",
+    "S%S    S%S  S%S    S%S  S%S     S%S    d*S  S%S     S%S    S%S",
+    "S%S    d*S  S%S SSSS%S  S&S     S&S   .S*S  S&S     S%S    d*S",
+    "S&S   .S*S  S&S  SSS%S  S&S     S&S_sdSSS   S&S_Ss  S&S   .S*S",
+    "S&S_sdSSS   S&S    S&S  S&S     S&S~YSSY%b  S&S~SP  S&S_sdSSS",
+    "S&S~YSSY    S&S    S&S  S&S     S&S    `S%  S&S     S&S~YSY%b",
+    "S*S         S*S    S&S  S*b     S*S     S%  S*b     S*S   `S%b",
+    "S*S         S*S    S*S  S*S.    S*S     S&  S*S.    S*S    S%S",
+    "S*S         S*S    S*S   SSSbs  S*S     S&   SSSbs  S*S    S&S",
+    "S*S         SSS    S*S    YSSP  S*S     SS    YSSP  S*S    SSS",
+    "SP                 SP           SP                  SP        ",
+    "Y                  Y            Y                   Y         ",
+    "--------------------------------------------------------------",
+    "                          [S] Sync",
+    "                          [I] Instsall",
+    "                          [C] Compile",
+    "                          [U] Update",
+    "                          [Q] Quit",
   }
 
   -- Insert content
