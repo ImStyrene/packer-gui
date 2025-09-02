@@ -1,12 +1,5 @@
 local M = {}
 
--- Close buffer safely
-local function close_gui(buf)
-  if vim.api.nvim_buf_is_valid(buf) then
-    vim.api.nvim_buf_delete(buf, { force = true })
-  end
-end
-
 function M.open()
   -- Create scratch buffer
   local buf = vim.api.nvim_create_buf(false, true)
@@ -53,14 +46,21 @@ function M.open()
   vim.bo[buf].modifiable = false
   vim.bo[buf].readonly = true
 
-  -- Keymaps (buffer-local)
-  local map_opts = { noremap = true, silent = true, buffer = buf }
-  vim.keymap.set("n", "S", "<cmd>PackerSync<CR>", map_opts)
-  vim.keymap.set("n", "I", "<cmd>PackerInstall<CR>", map_opts)
-  vim.keymap.set("n", "C", "<cmd>PackerCompile<CR>", map_opts)
-  vim.keymap.set("n", "U", "<cmd>PackerUpdate<CR>", map_opts)
-  vim.keymap.set("n", "Q", function() close_gui(buf) end, map_opts)
-  vim.keymap.set("n", "q", function() close_gui(buf) end, map_opts)
+  -- Helper function to close GUI safely
+  local function close_gui()
+    if vim.api.nvim_buf_is_valid(buf) then
+      vim.api.nvim_buf_delete(buf, { force = true })
+    end
+  end
+
+  -- Keymaps
+  local opts = { noremap = true, silent = true, buffer = buf }
+  vim.keymap.set("n", "S", function() vim.cmd("PackerSync") close_gui() end, opts)
+  vim.keymap.set("n", "I", function() vim.cmd("PackerInstall") close_gui() end, opts)
+  vim.keymap.set("n", "C", function() vim.cmd("PackerCompile") close_gui() end, opts)
+  vim.keymap.set("n", "U", function() vim.cmd("PackerUpdate") close_gui() end, opts)
+  vim.keymap.set("n", "Q", close_gui, opts)
+  vim.keymap.set("n", "q", close_gui, opts)
 end
 
 return M
