@@ -28,19 +28,21 @@ function M.open()
 
   -- ASCII + menu
   local lines = {
-    '',
-    '  88""Yb    db     dP""b8 88  dP 888888 88""Yb ',
-    '  88__dP   dPYb   dP   `" 88odP  88__   88__dP ',
-    '  88"""   dP__Yb  Yb      88"Yb  88""   88"Yb  ',
-    '  88     dP""""Yb  YboodP 88  Yb 888888 88  Yb ',
+    "",
+    "__________                __                 ",
+    "\\______   \\_____    ____ |  | __ ___________ ",
+    "|     ___/\\__  \\ _/ ___\\|  |/ // __ \\_  __ \\",
+    "|    |     / __ \\\\  \\___|    <\\  ___|  | \\/",
+    "|____|    (____  /\\___  >__|_ \\\\___  >__|   ",
+    "  		    \\/     \\/     \\/    \\/       ",
+    "",
     "  -------------------------------------------- ",
-    "                  [S] Sync",
-    "                  [I] Install",
-    "                  [C] Compile",
-    "                  [U] Update",
-    "                  [Q] Quit",
+    "                  [S] Sync",
+    "                  [I] Install",
+    "                  [C] Compile",
+    "                  [U] Update",
+    "                  [Q] Quit",
   }
-
   -- Insert content
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   vim.bo[buf].modifiable = false
