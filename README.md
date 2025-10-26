@@ -25,3 +25,7 @@
 
 # How to activate packer-gui?
 - `:Packer` on command mode, or make a custom remap for it
+
+## What if I want to customize it?
+1. Fork this repository
+2. Add changes to the lua/packer-gui/ui.lua
