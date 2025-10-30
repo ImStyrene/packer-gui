@@ -10,7 +10,7 @@
 
 # Installation
 1. Have packer.nvim installed
-2. On your init.lua (or anything that you put plugins on), add this to your config
+2. On your init.lua (or anything that you put plugins on), add this to your config)
     ```lua
    use {
       'ImStyrene/packer-gui',
